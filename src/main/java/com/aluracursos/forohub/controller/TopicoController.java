@@ -1,7 +1,7 @@
 package com.aluracursos.forohub.controller;
 
 import com.aluracursos.forohub.dto.DatosListaTopico;
-import com.aluracursos.forohub.dto.TopicoDTO;
+import com.aluracursos.forohub.dto.DatosRegistroTopico;
 import com.aluracursos.forohub.entity.Topico;
 import com.aluracursos.forohub.repository.TopicoRepository;
 import jakarta.validation.Valid;
@@ -19,7 +19,7 @@ public class TopicoController {
 
     @Transactional
     @PostMapping
-    public void registrarTopico(@RequestBody @Valid TopicoDTO datos) {
+    public void registrarTopico(@RequestBody @Valid DatosRegistroTopico datos) {
         repository.save(new Topico(datos));
     }
 
@@ -27,6 +27,13 @@ public class TopicoController {
     public Page<DatosListaTopico> listarTopicos(Pageable paginacion) {
         return repository.findAll(paginacion).map(DatosListaTopico::new);
     }
+
+//    @GetMapping("/{id}")
+//    public DatosListaTopico buscarTopico(@PathVariable Long id) {
+//
+//        DatosListaTopico topicoPorId = repository.findById(id);
+//        return topicoPorId;
+//    }
 //    @PutMapping
 //    @DeleteMapping
 }

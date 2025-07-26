@@ -1,6 +1,6 @@
 package com.aluracursos.forohub.entity;
 
-import com.aluracursos.forohub.dto.TopicoDTO;
+import com.aluracursos.forohub.dto.DatosRegistroTopico;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -24,17 +24,19 @@ public class Topico {
     private String titulo;
     @Column(unique = true)
     private String mensaje;
-    private LocalDate fechaDeCreacion;
-    private String status; //  estado del tópico
     private String idAutor;
     private String curso;
 
-    public Topico(@Valid TopicoDTO datos) {
+    private LocalDate fechaDeCreacion = LocalDate.now();
+    private String status = "ABIERTO";  // estado del tópico
+
+
+    public Topico(@Valid DatosRegistroTopico datos) {
         this.id = null;
         this.titulo = datos.titulo();
         this.mensaje = datos.mensaje();
         this.fechaDeCreacion = LocalDate.now();
-        this.status = "Abierto";
+        this.status = "ABIERTO";
         this.idAutor = datos.idAutor();
         this.curso = datos.curso();
     }
