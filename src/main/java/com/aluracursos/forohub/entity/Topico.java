@@ -1,5 +1,6 @@
 package com.aluracursos.forohub.entity;
 
+import com.aluracursos.forohub.dto.DatosActualizacionTopico;
 import com.aluracursos.forohub.dto.DatosRegistroTopico;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
@@ -39,5 +40,20 @@ public class Topico {
         this.status = "ABIERTO";
         this.idAutor = datos.idAutor();
         this.curso = datos.curso();
+    }
+
+    public void actualizar(@Valid DatosActualizacionTopico datos) {
+        if (datos.titulo() != null) {
+            this.titulo = datos.titulo();
+        }
+        if (datos.mensaje() != null) {
+            this.mensaje = datos.mensaje();
+        }
+        if (datos.idAutor() != null) {
+            this.idAutor = datos.idAutor();
+        }
+        if (datos.curso() != null) {
+            this.curso = datos.curso();
+        }
     }
 }
