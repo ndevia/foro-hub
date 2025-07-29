@@ -1,6 +1,7 @@
 package com.aluracursos.forohub.controller;
 
 import com.aluracursos.forohub.dto.DatosActualizacionTopico;
+import com.aluracursos.forohub.dto.DatosDetalleTopico;
 import com.aluracursos.forohub.dto.DatosListaTopico;
 import com.aluracursos.forohub.dto.DatosRegistroTopico;
 import com.aluracursos.forohub.entity.Topico;
@@ -10,6 +11,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,16 +45,20 @@ public class TopicoController {
 
     @Transactional
     @PutMapping("/{id}")
-    public void actualizarTopico(@PathVariable Long id, @RequestBody @Valid DatosActualizacionTopico datos) {
+    public ResponseEntity actualizarTopico(@PathVariable Long id, @RequestBody @Valid DatosActualizacionTopico datos) {
+        var topico = repository.getReferenceById(datos.id());
         service.actualizarTopico(id, datos);
+
+        return ResponseEntity.ok(new DatosDetalleTopico(topico));
     }
 
     @Transactional
     @DeleteMapping("/{id}")
-    public void eliminarTopico(@PathVariable Long id) {
+    public ResponseEntity eliminarTopico(@PathVariable Long id) {
         Optional<Topico> topico = repository.findById(id);
         if (topico.isPresent()) {
             repository.deleteById(id);
         }
+        return ResponseEntity.noContent().build();
     }
 }
