@@ -32,4 +32,17 @@ public class TokenService {
     private Instant fechaExpiracion() {
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-04:00"));
     }
+
+    public String getSubject(String tokenJWT) {
+        try {
+            var algoritmo = Algorithm.HMAC256(secret);
+            return JWT.require(algoritmo)
+                    .withIssuer("Foro Hub")
+                    .build()
+                    .verify(tokenJWT)
+                    .getSubject();
+        } catch (JWTCreationException exception){
+            throw new RuntimeException("Error al generar el token JWT", exception);
+        }
+    }
 }
